@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_todo/model/list_item.dart';
@@ -29,14 +27,11 @@ class _HomeState extends State<Home> {
     items = [];
     user = await FirebaseAuth.instance.currentUser();
     ref = FirebaseDatabase.instance.reference();
-    ref
-        .child('to-do/${user.uid}')
-        .onValue
-        .listen((evt) {
+    ref.child('to-do/${user.uid}').onValue.listen((evt) {
       li = [];
       AllKeys = [];
-      if(evt.snapshot == null){
-        showInSnackBar('No Internet Connection');
+      if (evt.snapshot.value == null) {
+        showInSnackBar('No Wiork to Show');
         return;
       }
       DataSnapshot data = evt.snapshot;
@@ -44,8 +39,9 @@ class _HomeState extends State<Home> {
       var todo = data.value;
       for (var key in keys) {
         li.add(new ListItem(
-          title: '${todo[key]['name']}',
-        ));
+            title: '${todo[key]['name'] ?? 'NO Title'}',
+            date: '${todo[key]['date']}',
+            time: '${todo[key]['time']}'));
         print(key.toString());
         AllKeys.add(key);
       }
@@ -64,27 +60,19 @@ class _HomeState extends State<Home> {
       key: _scaffoldKey,
       appBar: new AppBar(
         automaticallyImplyLeading: false,
-        title: new DropdownButtonHideUnderline(
-            child: new DropdownButton(
-                hint: new Text(' Select '),
-                value: item,
-                items: items,
-                onChanged: (data) {
-                  item = data;
-                })),
+        title: new Text('TODO App'),
         actions: <Widget>[
           new PopupMenuButton(
-            itemBuilder: (_) =>
-            <PopupMenuItem<String>>[
-              new PopupMenuItem<String>(
-                child: const Text('Github'),
-                value: 'github',
-              ),
-              new PopupMenuItem<String>(
-                  child: const Text('About'), value: 'about'),
-              new PopupMenuItem<String>(
-                  child: const Text('Logout'), value: 'logout'),
-            ],
+            itemBuilder: (_) => <PopupMenuItem<String>>[
+                  new PopupMenuItem<String>(
+                    child: const Text('Github'),
+                    value: 'github',
+                  ),
+                  new PopupMenuItem<String>(
+                      child: const Text('About'), value: 'about'),
+                  new PopupMenuItem<String>(
+                      child: const Text('Logout'), value: 'logout'),
+                ],
             onSelected: (val) {
               switch (val) {
                 case 'logout':
@@ -97,7 +85,12 @@ class _HomeState extends State<Home> {
         ],
       ),
       body: new Center(
-        child: li.length == 0 ? new Text('No work to Do') : showUI(),
+        child: li.length == 0
+            ? new Text(
+                'No work to Do',
+                style: Theme.of(context).textTheme.headline,
+              )
+            : showUI(),
       ),
       floatingActionButton: new FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, '/Add'),
@@ -135,5 +128,4 @@ class _HomeState extends State<Home> {
       },
     );
   }
-
 }

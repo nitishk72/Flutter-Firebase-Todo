@@ -117,7 +117,8 @@ class _AddState extends State<Add> {
       'name': work.text,
       'desc': desc.text,
       'date': '${date.day}/${date.month}/${date.year}',
-      'time': '${time.hour}:${time.minute}'
+      'time': '${time.hour}:${time.minute}',
+      'status':'1'
     };
     work.clear();
     desc.clear();
