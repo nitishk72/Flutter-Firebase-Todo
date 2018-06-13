@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "360698992316",
+    "firebase_url": "https://fun-69.firebaseio.com",
+    "project_id": "fun-69",
+    "storage_bucket": "fun-69.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:360698992316:android:212f125d4870c1cf",
+        "android_client_info": {
+          "package_name": "com.example.flutterfirebasetodo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "360698992316-b89aq5fp5u7onj33fd4kpmkisfsv0mf8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutterfirebasetodo",
+            "certificate_hash": "1fb3fe93d585cc7335bf38cb80ded351fb2a7e12"
+          }
+        },
+        {
+          "client_id": "360698992316-b9lleftg8ufduq3f0vdk97o16csmg4h5.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "360698992316-b9lleftg8ufduq3f0vdk97o16csmg4h5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClqoaGJcDq16fWgpG0cDUnsXJ7cO1p2u0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "360698992316-b9lleftg8ufduq3f0vdk97o16csmg4h5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

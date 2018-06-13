@@ -1,83 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_todo/Theme/Theme.dart';
+import 'package:flutter_firebase_todo/pages/Home.dart';
+import 'package:flutter_firebase_todo/pages/Login.dart';
+import 'package:flutter_firebase_todo/pages/Register.dart';
+import 'package:flutter_firebase_todo/pages/Add.dart';
 
 void main() => runApp(new MyApp());
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  List<DropdownMenuItem<String>> items = [];
-  List<String> li = ['1', '2', '3', '4'];
-  String item;
-
-  init() {
-    items = li
-        .map((data) => new DropdownMenuItem(
-              child: new Text('Item $data'),
-              value: data,
-            ))
-        .toList();
-  }
+class MyApp extends StatelessWidget {
+  var routes = <String, WidgetBuilder>{
+    "/Login": (BuildContext context) => new Login(),
+    "/Register": (BuildContext context) => new Register(),
+    "/Home": (BuildContext context) => new Home(),
+    "/Add": (BuildContext context) => new Add(),
+  };
 
   @override
   Widget build(BuildContext context) {
-    init();
     return new MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: new ThemeData(
-          primarySwatch: Colors.cyan, accentColor: Colors.blueGrey),
-      home: new Scaffold(
-        appBar: new AppBar(
-          title: new DropdownButton(
-              hint: new Text('Select'),
-              value: item,
-              items: items,
-              onChanged: (data) {
-                item = data;
-              }),
-          actions: <Widget>[
-            new PopupMenuButton(
-              itemBuilder: (_) => <PopupMenuItem<String>>[
-                    new PopupMenuItem<String>(
-                        child: const Text('Github'), value: 'github'),
-                    new PopupMenuItem<String>(
-                        child: const Text('About'), value: 'about'),
-                  ],
-            )
-          ],
-        ),
-        drawer: new Drawer(),
-        body: new SingleChildScrollView(
-            child: new Container(
-          padding: new EdgeInsets.all(10.0),
-          child: new Center(
-            child: new Column(
-              children: <Widget>[
-                new Text('Login'),
-                new Padding(padding: new EdgeInsets.symmetric(vertical: 6.0)),
-                new TextField(
-                  decoration: new InputDecoration(hintText: 'E-mail ID'),
-                ),
-                new Padding(padding: new EdgeInsets.symmetric(vertical: 6.0)),
-                new TextField(
-                  decoration: new InputDecoration(hintText: 'Password'),
-                ),
-                new Padding(padding: new EdgeInsets.symmetric(vertical: 6.0)),
-                new RaisedButton(
-                  onPressed: () {},
-                  child: new Text('Submit'),
-                )
-              ],
-            ),
-          ),
-        )),
-        floatingActionButton: new FloatingActionButton(
-          onPressed: () {},
-          child: new Icon(Icons.add),
-        ),
-      ),
+      theme: AppTheme.ui,
+      home: new Login(),
+      routes: routes,
     );
   }
 }
