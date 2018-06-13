@@ -9,10 +9,10 @@ class Add extends StatefulWidget {
 }
 
 class _AddState extends State<Add> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   DateTime date = new DateTime.now();
   TimeOfDay time = new TimeOfDay.now();
   TextEditingController work = new TextEditingController();
-  TextEditingController desc = new TextEditingController();
   DatabaseReference ref;
   FirebaseUser user;
 
@@ -55,7 +55,10 @@ class _AddState extends State<Add> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(),
+      key: _scaffoldKey,
+      appBar: new AppBar(
+        title: new Text('Add Work Todo'),
+      ),
       body: new Container(
         margin: new EdgeInsets.all(10.0),
         child: new Card(
@@ -77,13 +80,14 @@ class _AddState extends State<Add> {
                 decoration: new InputDecoration(hintText: 'Enter Work Name'),
               ),
               new Padding(padding: new EdgeInsets.all(10.0)),
-              new TextField(
-                controller: desc,
-                decoration: new InputDecoration(hintText: 'Enter Description'),
-              ),
-              new Padding(padding: new EdgeInsets.all(10.0)),
               new Row(
                 children: <Widget>[
+                  new Expanded(
+                      child: new Text(
+                    'Date : ',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.title,
+                  )),
                   new Expanded(
                       child: new FlatButton(
                     onPressed: datep,
@@ -91,6 +95,17 @@ class _AddState extends State<Add> {
                             .toString()}/${date
                             .year
                             .toString()}"),
+                  )),
+                ],
+              ),
+              new Padding(padding: new EdgeInsets.all(10.0)),
+              new Row(
+                children: <Widget>[
+                  new Expanded(
+                      child: new Text(
+                    'Time : ',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.title,
                   )),
                   new Expanded(
                       child: new FlatButton(
@@ -101,9 +116,12 @@ class _AddState extends State<Add> {
               ),
               new Padding(padding: new EdgeInsets.all(10.0)),
               new RaisedButton(
-                onPressed: saveToFirebase,
-                child: new Text('Add'),
-              )
+                  padding: new EdgeInsets.all(10.0),
+                  onPressed: saveToFirebase,
+                  child: new Text(
+                    'Add',
+                    style: Theme.of(context).textTheme.title,
+                  ))
             ],
           ),
         ),
@@ -111,17 +129,23 @@ class _AddState extends State<Add> {
     );
   }
 
+  void showInSnackBar(String value) {
+    _scaffoldKey.currentState
+        .showSnackBar(new SnackBar(content: new Text(value)));
+  }
 
   void saveToFirebase() {
+    if (work.text.length < 3) {
+      showInSnackBar('Write something longer than 3 char');
+      return;
+    }
     Object data = {
       'name': work.text,
-      'desc': desc.text,
       'date': '${date.day}/${date.month}/${date.year}',
       'time': '${time.hour}:${time.minute}',
-      'status':'1'
+      'status': '1'
     };
     work.clear();
-    desc.clear();
     ref.child('/to-do/${user.uid}').push().set(data);
   }
 }

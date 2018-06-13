@@ -37,8 +37,8 @@ class _LoginState extends State<Login> {
           .signInWithEmailAndPassword(
               email: controllerEmail.text, password: controllerPassword.text)
           .then((user) {
-            showInSnackBar('Login Success');
-            Navigator.popAndPushNamed(context, '/Home');
+        showInSnackBar('Login Success');
+        Navigator.popAndPushNamed(context, '/Home');
       }).catchError(
         (onError) => showInSnackBar(onError.toString()),
       );
@@ -58,18 +58,20 @@ class _LoginState extends State<Login> {
 
   final FocusNode myFocusNode = new FocusNode();
 
-  void checkLogin(){
-    FirebaseAuth.instance.currentUser().then((user){
-      if(!user.isAnonymous){
+  void checkLogin() {
+    FirebaseAuth.instance.currentUser().then((user) {
+      if (user != null) if (!user.isAnonymous) {
+        Navigator.pop(context);
         Navigator.pushNamed(context, '/Home');
       }
     });
-    
   }
+
   @override
   void initState() {
     checkLogin();
   }
+
   @override
   void dispose() {
     myFocusNode.dispose();
